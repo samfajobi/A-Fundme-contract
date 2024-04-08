@@ -27,5 +27,14 @@ contract Fundme {
         }
         //reset array
         funders = new address[](0);
+
+        // //transfer
+        // payable(msg.sender).transfer(address(this).balance);
+        // //send
+        // bool sendSuccess = payable(msg.sender).send(address(this).balance);
+        // require(sendSuccess, "Send failed");
+        // //call
+        (bool success, ) = msg.sender.call{value: address(this).address}("");
+        require(success, "call failed");
     }
 }
