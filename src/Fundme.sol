@@ -8,9 +8,12 @@ contract Fundme {
 
     uint256 public MINIMUM_USD;
 
+    address[] public funders;
+
     function getFunds() public payable {
 
         require(msg.value >= MINIMUM_USD, "Not enough, you need to send more Eth");
+        funders.push(msg.sender);
     }
 
     function getPrice() public view returns() {
@@ -19,7 +22,13 @@ contract Fundme {
         return uint256(answer * 1e10);
     }
 
-    function getConversionRate() public view returns() {
+    function getConversionRate(uint256 ethValue) public view returns() {
+        uint256 ethPrice = getPrice();
+        uint256 ethAmountInUsd = (ethValue * ethPrice) / 1e18;
+        return ethAmountInUsd;
+    }
+
+    function withdraw() public view returns(uint256){
 
     }
 }
