@@ -7,10 +7,20 @@ import {PriceConverter} from "./PriceConverter.sol";
 contract Fundme {
     using PriceConverter for uint256;
 
-    uint256 public MINIMUM_USD;
+    uint256 constant public MINIMUM_USD;
 
     address[] public funders;
+    address public immutable i_owner;
     mapping(address => uint256) public addressToAmount;
+    
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not authorized!!!!");
+        _;
+    }
+    
+    constructor() {
+        owner == msg.sender;
+    }
 
     function getFunds() public payable {
 
@@ -20,7 +30,7 @@ contract Fundme {
     }
 
 
-    function withdraw() public{
+    function withdraw() onlyOwner public{
         for(funderIndex = 0; funderIndex < funders.length; funderIndex++) {
             address funder = funders[fundexIndex];
             addressToAmount[funder] = 0;
