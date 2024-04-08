@@ -20,7 +20,12 @@ contract Fundme {
     }
 
 
-    function withdraw() public view returns(uint256){
-
+    function withdraw() public{
+        for(funderIndex = 0; funderIndex < funders.length; funderIndex++) {
+            address funder = funders[fundexIndex];
+            addressToAmount[funder] = 0;
+        }
+        //reset array
+        funders = new address[](0);
     }
 }
