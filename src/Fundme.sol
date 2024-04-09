@@ -3,6 +3,7 @@ pragma solidity ^0.8.13;
 
 import {PriceConverter} from "./PriceConverter.sol";
 
+error NotOwner();
 
 contract Fundme {
     using PriceConverter for uint256;
@@ -14,7 +15,8 @@ contract Fundme {
     mapping(address => uint256) public addressToAmount;
     
     modifier onlyOwner() {
-        require(msg.sender == owner, "Not authorized!!!!");
+        //require(msg.sender == owner, "Not authorized!!!!");
+        if( msg.sender != owner ) {revert NotOwner(); }
         _;
     }
     
@@ -22,7 +24,7 @@ contract Fundme {
         owner == msg.sender;
     }
 
-    function getFunds() public payable {
+    function Fund() public payable {
 
         require(msg.value.getConversionRate() >= MINIMUM_USD, "Not enough, you need to send more Eth");
         funders.push(msg.sender);
@@ -47,4 +49,15 @@ contract Fundme {
         (bool success, ) = msg.sender.call{value: address(this).address}("");
         require(success, "call failed");
     }
+
+    receive() external payable {
+        fund();
+    }
+
+    fallback() external payable {
+        fund();
+    }
 }
+
+
+
