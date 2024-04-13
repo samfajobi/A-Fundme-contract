@@ -3,12 +3,12 @@ pragma solidity ^0.8.13;
 
 import {PriceConverter} from "./PriceConverter.sol";
 
-error NotOwner();
+error FundMe__NotOwner();
 
 contract Fundme {
     using PriceConverter for uint256;
 
-    uint256 constant public MINIMUM_USD;
+    uint256  public constant MINIMUM_USD = 5e18;
 
     address[] public funders;
     address public immutable i_owner;
@@ -16,16 +16,15 @@ contract Fundme {
     
     modifier onlyOwner() {
         //require(msg.sender == owner, "Not authorized!!!!");
-        if( msg.sender != owner ) {revert NotOwner(); }
+        if( msg.sender != i_owner ) {revert FundMe__NotOwner(); }
         _;
     }
     
     constructor() {
-        owner == msg.sender;
+        i_owner == msg.sender;
     }
 
-    function Fund() public payable {
-
+    function fund() public payable {
         require(msg.value.getConversionRate() >= MINIMUM_USD, "Not enough, you need to send more Eth");
         funders.push(msg.sender);
         addressToAmount[msg.sender] += msg.value;
@@ -33,8 +32,8 @@ contract Fundme {
 
 
     function withdraw() onlyOwner public{
-        for(funderIndex = 0; funderIndex < funders.length; funderIndex++) {
-            address funder = funders[fundexIndex];
+        for(uint256 funderIndex = 0; funderIndex < funders.length; funderIndex++) {
+            address funder = funders[funderIndex];
             addressToAmount[funder] = 0;
         }
         //reset array
@@ -46,7 +45,7 @@ contract Fundme {
         // bool sendSuccess = payable(msg.sender).send(address(this).balance);
         // require(sendSuccess, "Send failed");
         // //call
-        (bool success, ) = msg.sender.call{value: address(this).address}("");
+        (bool success, ) = msg.sender.call{value: address(this).balance}("");
         require(success, "call failed");
     }
 
