@@ -25,7 +25,7 @@ contract TestFundMe is Test {
     // }
 
     function testVersion() public view {
-        uint256 version  = fundMe.getVersion();
+        uint256 version = fundMe.getVersion();
         assertEq(version, 4);
     }
 }   
