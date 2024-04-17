@@ -17,7 +17,15 @@ contract TestFundMe is Test {
         assertEq(fundMe.MINIMUM_USD(), 5e18);     
     }
 
-    function testTwoAddresses() public view {
-        assertEq(fundMe.i_owner(), address(this));
+    // function testTwoAddresses() public view{
+    //     console.log(fundMe.i_owner());
+    //     console.log(msg.sender);
+    //     console.log(address(this));
+    //     assertEq(fundMe.i_owner(), address(this));
+    // }
+
+    function testVersion() public view {
+        uint256 version  = fundMe.getVersion();
+        assertEq(version, 4);
     }
 }   

@@ -14,5 +14,4 @@ contract DeployFundMe is Script {
         new FundMe();
         vm.stopBroadcast();
     }
-
 }
