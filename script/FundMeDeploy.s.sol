@@ -11,7 +11,7 @@ contract DeployFundMe is Script {
 
     function run() external {
         vm.startBroadcast();
-        new FundMe();
+        new FundMe();;
         vm.stopBroadcast();
     }
 }
