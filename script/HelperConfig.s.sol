@@ -7,17 +7,18 @@ pragma solidity ^0.8.18;
 contract HelperConfig {
     //Deploy mocks when we are on local anvil,
     //otherwise, we grab the existing address from the live network
+    NetworkConfig public activeNetworkConfig;
     struct NetworkConfig {
         address priceFeed; //ETH/USD price feed address
     }
 
     constructor {
         if(block.chainId == 1151) {
-
+            activeNetworkConfig = getSepoliaEthConfig;
         } else if(block.chainId == 343){
 
         } else {
-
+            activeNetworkConfig = getSepoliaEthConfig;
         }
     }
 
