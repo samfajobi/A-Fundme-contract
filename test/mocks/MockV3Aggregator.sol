@@ -41,6 +41,16 @@ contract MockV3Aggregator is AggregatorV3Interface {
         getTimestamp[latestRound] = block.timestamp;
         getStartedAt[latestRound] = block.timestamp;
     }
+
+
+    function updateRoundData(uint80 _roundId, int256 _answer, uint256 _timestamp, uint256 _startedAt) public {
+        latestRound = _roundId;
+        latestAnswer = _answer;
+        latestTimestamp = _timestamp;
+        getAnswer[latestRound] = _answer;
+        getTimestamp[latestRound] = _timestamp;
+        getStartedAt[latestRound] = _startedAt;
+    }
     
 
 }
