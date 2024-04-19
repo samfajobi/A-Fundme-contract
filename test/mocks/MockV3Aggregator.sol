@@ -22,4 +22,25 @@ contract MockV3Aggregator is AggregatorV3Interface {
     uint256 public latestTimestamp;
     uint256 public latestRound;
 
+
+    mapping(uint256 => int256) public getAnswer;
+    mapping(uint256 => uint256) public getTimestamp;
+    mapping(uint256 => uint256) private getStartedAt;
+
+    constructor(uint8 _decimals, int256 _initialAnswer) {
+        decimals = _decimals;
+        updateAnswer(_initialAnswer);
+    }
+
+
+    function updateAnswer(int256 _answer) public {
+        latestAnswer = _answer;
+        latestTimestamp = block.timestamp;
+        latestRound++;
+        getAnswer[latestRound] = _answer;
+        getTimestamp[latestRound] = block.timestamp;
+        getStartedAt[latestRound] = block.timestamp;
+    }
+    
+
 }
