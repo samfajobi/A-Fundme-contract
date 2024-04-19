@@ -4,11 +4,15 @@
 pragma solidity ^0.8.18;
 
 import {Script} from "forge-std/Script.sol";
+import {MockV3Aggregator} from "../test/mocks/MockV3Aggregator.sol";
 
 
 contract HelperConfig is  Script {
     //Deploy mocks when we are on local anvil,
     //otherwise, we grab the existing address from the live network
+    uint256 public constant DECIMALS = 5e10;
+    int256 public constant INITIAL_ANSWER = 6e10;
+
     NetworkConfig public activeNetworkConfig;
 
     struct NetworkConfig {
@@ -42,7 +46,7 @@ contract HelperConfig is  Script {
     function getOrCreateAnvilEthConfig() public view returns(NetworkConfig memory){
 
         vm.startBroadcast();
-
+        MockV3Aggregator mockFeed = new MockV3Aggregator();
         vm.stopBroadcast();
 
     }
