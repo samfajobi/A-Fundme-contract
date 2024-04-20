@@ -10,7 +10,7 @@ import {MockV3Aggregator} from "../test/mocks/MockV3Aggregator.sol";
 contract HelperConfig is  Script {
     //Deploy mocks when we are on local anvil,
     //otherwise, we grab the existing address from the live network
-    uint256 public constant DECIMALS = 5e10;
+    uint8 public constant DECIMALS = 8;
     int256 public constant INITIAL_ANSWER = 6e10;
 
     NetworkConfig public activeNetworkConfig;
@@ -43,12 +43,17 @@ contract HelperConfig is  Script {
         });
     }
 
-    function getOrCreateAnvilEthConfig() public view returns(NetworkConfig memory){
+    function getOrCreateAnvilEthConfig() public  returns(NetworkConfig memory anvilNetworkConfig){
 
         vm.startBroadcast();
-        MockV3Aggregator mockFeed = new MockV3Aggregator();
+        MockV3Aggregator mockPriceFeed = new MockV3Aggregator(
+            DECIMALS,
+            INITIAL_ANSWER
+        );
         vm.stopBroadcast();
+        anvilNetworkConfig = NetworkConfig(address(mockPriceFeed));
 
-    }
+
+
 
 }
