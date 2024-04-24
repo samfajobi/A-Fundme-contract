@@ -15,7 +15,7 @@ contract FundMe {
     address public immutable i_owner;
     AggregatorV3Interface private s_priceFeed;
 
-    mapping(address => uint256) public addressToAmount;
+    mapping(address => uint256) public s_addressToAmount;
     
     modifier onlyOwner() {
         //require(msg.sender == owner, "Not authorized!!!!");
@@ -64,6 +64,14 @@ contract FundMe {
 
     fallback() external payable {
         fund();
+    }
+
+    function getAddressToAmountFunded(address fundingAddress) public view returns(uint256) {
+        return s_addressToAmount[fundingAddress];
+    }
+
+    function getFunder(uint256 index) public view returns(address) {
+        return address[index];
     }
 }
 
