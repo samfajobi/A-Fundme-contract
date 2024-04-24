@@ -26,9 +26,7 @@ contract HelperConfig is  Script {
             activeNetworkConfig = getMainnetEthConfig();
         } else {
             activeNetworkConfig = getOrCreateAnvilEthConfig();
-        }
-            
-        
+        }    
     }
 
     function getSepoliaEthConfig() public pure returns(NetworkConfig memory sepoliaNetworkConfig){

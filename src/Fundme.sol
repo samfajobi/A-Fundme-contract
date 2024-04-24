@@ -31,14 +31,14 @@ contract FundMe {
     function fund() public payable {
         require(msg.value.getConversionRate(s_priceFeed) >= MINIMUM_USD, "Not enough, you need to send more Eth");
         funders.push(msg.sender);
-        addressToAmount[msg.sender] += msg.value;
+        s_addressToAmount[msg.sender] += msg.value;
     }
 
 
     function withdraw() onlyOwner public{
         for(uint256 funderIndex = 0; funderIndex < funders.length; funderIndex++) {
             address funder = funders[funderIndex];
-            addressToAmount[funder] = 0;
+            s_addressToAmount[funder] = 0;
         }
         //reset array
         funders = new address[](0);
